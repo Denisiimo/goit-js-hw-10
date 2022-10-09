@@ -16,11 +16,11 @@ function onInput() {
         .then(loadCountries)
         .catch(error => error)
     }
-    else renderCountryList('')
+    else loadCountries('')
 }
 
 function loadCountries(countries) {
-    if (countries === ""){
+    if (countries.length === 0){
         clearMarkup()
     }
     else if (countries.length > 10){
@@ -43,6 +43,7 @@ function fetchCountries(name){
     return fetch(`https://restcountries.com/v3.1/name/${name}?fields=name,capital,population,flags,languages`)
     .then(response => {
         if (!response.ok){
+            countryListRef.innerHTML = ""
             throw new Error(Notiflix.Notify.failure("Oops, there is no country with that name"))
         }
         return response.json()
